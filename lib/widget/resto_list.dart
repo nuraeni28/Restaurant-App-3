@@ -29,7 +29,7 @@ class ListResto extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
                     image: NetworkImage(
-                        "https://resto-api.dicoding.dev/images/large/" +
+                        "https://restaurant-api.dicoding.dev/images/medium/" +
                             resto.pictureId),
                     fit: BoxFit.cover),
               ),

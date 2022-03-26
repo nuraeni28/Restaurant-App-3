@@ -14,14 +14,14 @@ class RecomendResto extends StatefulWidget {
 }
 
 class _RecomendRestoState extends State<RecomendResto> {
-  // late Future<RestoList> _resto;
+  late Future<RestoList> _resto;
   // late RestoProvider provider;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _resto = ApiService().restaurantList();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _resto = ApiService().restaurantList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,45 +148,45 @@ class _RecomendRestoState extends State<RecomendResto> {
             SizedBox(
               height: 10,
             ),
-            ChangeNotifierProvider<RestoProvider>(
-                create: (_) => RestoProvider(
-                    apiService: ApiService(), type: 'list', id: ''),
-                child: Consumer<RestoProvider>(builder: (context, state, _) {
-                  _provider = state;
-                  final result = state.result as RestoList;
-                  if (state.state == ResultState.Loading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state.state == ResultState.HasData) {
-                    return ListView.builder(
-                      itemCount: result.restaurants.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var resto = result.restaurants[index];
-                        return ListResto(resto: resto);
-                      },
-                    );
-                  }
-                  return Container();
-                })),
-            // Expanded(
-            //   child: FutureBuilder(
-            //     future: _resto,
-            //     builder: (context, AsyncSnapshot<RestoList> snapshot) {
-            //       if (snapshot.hasError) {
-            //         return Text("Gagal menampilkan data");
-            //       } else if (snapshot.hasData) {
-            // return ListView.builder(
-            //     itemCount: snapshot.data?.restaurants.length,
-            //     itemBuilder: (context, index) {
-            //               var resto = snapshot.data?.restaurants[index];
-            //               return ListResto(
-            //                 resto: resto!,
-            //               );
-            //             });
+            // ChangeNotifierProvider<RestoProvider>(
+            //     create: (_) => RestoProvider(
+            //         apiService: ApiService(), type: 'list', id: ''),
+            //     child: Consumer<RestoProvider>(builder: (context, state, _) {
+            //       _provider = state;
+            //       final result = state.result as RestoList;
+            //       if (state.state == ResultState.Loading) {
+            //         return Center(child: CircularProgressIndicator());
+            //       } else if (state.state == ResultState.HasData) {
+            //         return ListView.builder(
+            //           itemCount: result.restaurants.length,
+            //           itemBuilder: (BuildContext context, int index) {
+            //             var resto = result.restaurants[index];
+            //             return ListResto(resto: resto);
+            //           },
+            //         );
             //       }
             //       return Container();
-            //     },
-            //   ),
-            // ),
+            //     })),
+            Expanded(
+              child: FutureBuilder(
+                future: _resto,
+                builder: (context, AsyncSnapshot<RestoList> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text("Gagal menampilkan data");
+                  } else if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data?.restaurants.length,
+                        itemBuilder: (context, index) {
+                          var resto = snapshot.data?.restaurants[index];
+                          return ListResto(
+                            resto: resto!,
+                          );
+                        });
+                  }
+                  return Container();
+                },
+              ),
+            ),
           ],
         ),
       ),
