@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/widget/RestoList.dart';
+import 'package:yess_nutrion/provider/resto_provider.dart';
+import 'package:yess_nutrion/widget/resto_list.dart';
 
-class RecomendResto extends StatelessWidget {
+import 'api/api_service.dart';
+
+class RecomendResto extends StatefulWidget {
   static const routeName = '/resto_recomend';
+
+  @override
+  State<RecomendResto> createState() => _RecomendRestoState();
+}
+
+class _RecomendRestoState extends State<RecomendResto> {
+  // late Future<RestoList> _resto;
+  // late RestoProvider provider;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _resto = ApiService().restaurantList();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    RestoProvider _provider;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -128,26 +148,45 @@ class RecomendResto extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: FutureBuilder<String>(
-                future: DefaultAssetBundle.of(context)
-                    .loadString('assets/local_restaurant.json'),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text("Gagal menampilkan data");
-                  } else if (snapshot.hasData) {
-                    final List<Resto> resto = parseResto(snapshot.data);
+            ChangeNotifierProvider<RestoProvider>(
+                create: (_) => RestoProvider(
+                    apiService: ApiService(), type: 'list', id: ''),
+                child: Consumer<RestoProvider>(builder: (context, state, _) {
+                  _provider = state;
+                  final result = state.result as RestoList;
+                  if (state.state == ResultState.Loading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state.state == ResultState.HasData) {
                     return ListView.builder(
-                      itemCount: resto.length,
-                      itemBuilder: (context, index) {
-                        return _buildRestaurantItem(context, resto[index]);
+                      itemCount: result.restaurants.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var resto = result.restaurants[index];
+                        return ListResto(resto: resto);
                       },
                     );
                   }
                   return Container();
-                },
-              ),
-            ),
+                })),
+            // Expanded(
+            //   child: FutureBuilder(
+            //     future: _resto,
+            //     builder: (context, AsyncSnapshot<RestoList> snapshot) {
+            //       if (snapshot.hasError) {
+            //         return Text("Gagal menampilkan data");
+            //       } else if (snapshot.hasData) {
+            // return ListView.builder(
+            //     itemCount: snapshot.data?.restaurants.length,
+            //     itemBuilder: (context, index) {
+            //               var resto = snapshot.data?.restaurants[index];
+            //               return ListResto(
+            //                 resto: resto!,
+            //               );
+            //             });
+            //       }
+            //       return Container();
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -155,9 +194,9 @@ class RecomendResto extends StatelessWidget {
     );
   }
 
-  Widget _buildRestaurantItem(BuildContext context, Resto resto) {
-    return ListResto(
-      resto: resto,
-    );
-  }
+  // Widget _buildRestaurantItem(BuildContext context, Resto resto) {
+  //   return ListResto(
+  //     resto: resto,
+  //   );
+  // }
 }

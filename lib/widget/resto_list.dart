@@ -5,19 +5,19 @@ import 'package:yess_nutrion/styles.dart';
 import '../resto_detail.dart';
 
 class ListResto extends StatelessWidget {
-  Resto resto;
-  ListResto({required this.resto});
+  final Restaurant resto;
+  const ListResto({required this.resto});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          DetailResto.routeName,
-          arguments: resto,
-        );
-      },
+      // onTap: () {
+      //   Navigator.pushNamed(
+      //     context,
+      //     DetailResto.routeName,
+      //     arguments: resto,
+      //   );
+      // },
       child: Column(children: <Widget>[
         Row(
           children: <Widget>[
@@ -28,7 +28,10 @@ class ListResto extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
-                    image: NetworkImage(resto.pictureId), fit: BoxFit.cover),
+                    image: NetworkImage(
+                        "https://resto-api.dicoding.dev/images/large/" +
+                            resto.pictureId),
+                    fit: BoxFit.cover),
               ),
             ),
             Expanded(
