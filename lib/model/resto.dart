@@ -71,12 +71,12 @@ class RestoDetail {
 
   bool error;
   String message;
-  Restaurant restaurant;
+  RestaurantFull restaurant;
 
   factory RestoDetail.fromJson(Map<String, dynamic> json) => RestoDetail(
         error: json["error"],
         message: json["message"],
-        restaurant: Restaurant.fromJson(json["restaurant"]),
+        restaurant: RestaurantFull.fromJson(json["restaurant"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -201,4 +201,27 @@ class Menus {
         "foods": List<dynamic>.from(foods.map((x) => x.toJson())),
         "drinks": List<dynamic>.from(drinks.map((x) => x.toJson())),
       };
+}
+
+// To parse this JSON data, do
+//
+//     final searchResto = searchRestoFromJson(jsonString);
+
+class RestoSearch {
+  RestoSearch({
+    required this.error,
+    required this.founded,
+    required this.restaurants,
+  });
+
+  bool error;
+  int founded;
+  List<Restaurant> restaurants;
+
+  factory RestoSearch.fromJson(Map<String, dynamic> json) => RestoSearch(
+        error: json["error"],
+        founded: json["founded"],
+        restaurants: List<Restaurant>.from(
+            json["restaurants"].map((x) => Restaurant.fromJson(x))),
+      );
 }

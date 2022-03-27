@@ -15,16 +15,18 @@ class RestoProvider extends ChangeNotifier {
     if (type == 'list') {
       fetchRestoFull();
     } else if (type == 'detail') {
-      // fetchRestoDetail(id);
+      fetchRestoDetail(id);
     }
   }
 
-  late RestoList _resto;
+  late dynamic _resto;
+
   late ResultState _state;
   String _message = '';
 
   String get message => _message;
-  RestoList get result => _resto;
+  dynamic get result => _resto;
+
   ResultState get state => _state;
 
   Future<dynamic> fetchRestoFull() async {
@@ -44,22 +46,43 @@ class RestoProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error';
+      return _message = 'Oops. Koneksi internet kamu mati!';
     }
   }
 
-  // Future<dynamic> fetchRestoDetail(String id) async {
-  //   try {
-  //     _state = ResultState.Loading;
-  //     notifyListeners();
-  //     final restaurantDetail = await apiService.restaurantDetail(id);
-  //     _state = ResultState.HasData;
-  //     notifyListeners();
-  //     return _resto = restaurantDetail;
-  //   } catch (e) {
-  //     _state = ResultState.Error;
-  //     notifyListeners();
-  //     return _message = 'Error --> $e';
-  //   }
-  // }
+  Future<dynamic> fetchRestoDetail(String id) async {
+    try {
+      _state = ResultState.Loading;
+      notifyListeners();
+      final restaurantDetail = await apiService.restaurantDetail(id);
+      _state = ResultState.HasData;
+      notifyListeners();
+      return _resto = restaurantDetail;
+    } catch (e) {
+      _state = ResultState.Error;
+      notifyListeners();
+      return _message = 'Oops. Koneksi internet kamu mati!';
+    }
+  }
+
+  Future<dynamic> fetchRestoSearch(String query) async {
+    try {
+      _state = ResultState.Loading;
+      notifyListeners();
+      final searchRestaurant = await apiService.searchRestaurant(query);
+      if (searchRestaurant.restaurants.isEmpty) {
+        _state = ResultState.NoData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _state = ResultState.HasData;
+        notifyListeners();
+        return _resto = searchRestaurant;
+      }
+    } catch (e) {
+      _state = ResultState.Error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
 }

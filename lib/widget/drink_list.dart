@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:yess_nutrion/model/resto.dart';
 
 class DrinkList extends StatelessWidget {
-  final RestaurantFull resto;
+  final List<Category> drinks;
 
-  const DrinkList({required this.resto});
+  const DrinkList({required this.drinks});
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 230,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: resto.menus.foods.length,
+        itemCount: drinks.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: EdgeInsets.all(10),
@@ -37,7 +37,7 @@ class DrinkList extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Text(
-                                resto.menus.drinks[index].name,
+                                drinks[index].name,
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                             ],

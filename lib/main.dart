@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/recomend_resto.dart';
+import 'package:yess_nutrion/main_page.dart';
 import 'package:yess_nutrion/resto_detail.dart';
+import 'package:yess_nutrion/resto_search.dart';
 import 'package:yess_nutrion/splash_screen.dart';
 import 'package:yess_nutrion/styles.dart';
 
@@ -26,9 +27,11 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         RecomendResto.routeName: (context) => RecomendResto(),
+        SearchResto.routeName: (context) => SearchResto(),
         DetailResto.routeName: (context) => DetailResto(
-              resto: ModalRoute.of(context)?.settings.arguments as Restaurant,
-            ),
+            id: ModalRoute.of(context)!.settings.arguments == null
+                ? 'null'
+                : ModalRoute.of(context)!.settings.arguments as String),
         SplashScreen.routeName: (context) => SplashScreen(),
       },
     );
