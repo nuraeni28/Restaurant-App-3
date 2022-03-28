@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:yess_nutrion/common/styles.dart';
 import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/styles.dart';
 
-import '../resto_detail.dart';
+import '../ui/resto_detail.dart';
 
 class ListResto extends StatelessWidget {
   final Restaurant resto;

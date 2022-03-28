@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yess_nutrion/ui/main_page.dart';
 import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/main_page.dart';
-import 'package:yess_nutrion/resto_detail.dart';
-import 'package:yess_nutrion/resto_search.dart';
-import 'package:yess_nutrion/splash_screen.dart';
-import 'package:yess_nutrion/styles.dart';
+import 'package:yess_nutrion/ui/resto_detail.dart';
+import 'package:yess_nutrion/ui/resto_search.dart';
+import 'package:yess_nutrion/ui/splash_screen.dart';
+import 'package:yess_nutrion/common/styles.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:yess_nutrion/api/api_service.dart';
-import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/main_page.dart';
+import 'package:yess_nutrion/common//styles.dart';
 import 'package:yess_nutrion/provider/resto_provider.dart';
-import 'package:yess_nutrion/styles.dart';
+import 'package:yess_nutrion/ui/main_page.dart';
 import 'package:yess_nutrion/widget/drink_list.dart';
 import 'package:yess_nutrion/widget/food_list.dart';
 

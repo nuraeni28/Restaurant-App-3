@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yess_nutrion/api/api_service.dart';
-import 'package:http/http.dart' as http;
-import 'package:yess_nutrion/provider/resto_provider.dart';
+import 'package:yess_nutrion/common/styles.dart';
 import 'package:yess_nutrion/provider/search_provider.dart';
-import 'package:yess_nutrion/resto_page.dart';
-import 'package:yess_nutrion/styles.dart';
 import 'package:yess_nutrion/widget/resto_list.dart';
 
 class SearchResto extends StatelessWidget {

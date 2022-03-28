@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yess_nutrion/model/resto.dart';
-import 'package:yess_nutrion/provider/resto_provider.dart';
-import 'package:yess_nutrion/resto_search.dart';
 import '../api/api_service.dart';
 
 enum SearchState { Loading, NoData, HasData, Error, NoQueri }

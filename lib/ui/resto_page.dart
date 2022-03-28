@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yess_nutrion/model/resto.dart';
 import 'package:yess_nutrion/provider/resto_provider.dart';
-import 'package:yess_nutrion/resto_search.dart';
+import 'package:yess_nutrion/ui/resto_search.dart';
 import 'package:yess_nutrion/widget/resto_list.dart';
 
-import 'api/api_service.dart';
+import 'package:yess_nutrion/api/api_service.dart';
 
 class RestoPage extends StatelessWidget {
   @override

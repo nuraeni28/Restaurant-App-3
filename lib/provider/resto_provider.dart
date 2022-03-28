@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yess_nutrion/model/resto.dart';
 
 import '../api/api_service.dart';
 
