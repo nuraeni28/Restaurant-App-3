@@ -83,21 +83,22 @@ class RestoPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 10),
-                              blurRadius: 50,
-                              color: Colors.green.withOpacity(0.2)),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                SearchResto.routeName,
+                              );
+                            },
+                            icon: Icon(Icons.search, size: 24),
+                          )
                         ],
                       ),
-                      child: SearchResto(),
                     ),
                     Container(
                       child: Column(

@@ -64,25 +64,4 @@ class RestoProvider extends ChangeNotifier {
       return _message = 'Oops. Koneksi internet kamu mati!';
     }
   }
-
-  Future<dynamic> fetchRestoSearch(String query) async {
-    try {
-      _state = ResultState.Loading;
-      notifyListeners();
-      final searchRestaurant = await apiService.searchRestaurant(query);
-      if (searchRestaurant.restaurants.isEmpty) {
-        _state = ResultState.NoData;
-        notifyListeners();
-        return _message = 'Empty Data';
-      } else {
-        _state = ResultState.HasData;
-        notifyListeners();
-        return _resto = searchRestaurant;
-      }
-    } catch (e) {
-      _state = ResultState.Error;
-      notifyListeners();
-      return _message = 'Error --> $e';
-    }
-  }
 }

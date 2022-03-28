@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:yess_nutrion/model/resto.dart';
 import 'package:yess_nutrion/styles.dart';
@@ -23,16 +25,16 @@ class ListResto extends StatelessWidget {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(left: 40, bottom: 20),
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    image: NetworkImage(
-                        "https://restaurant-api.dicoding.dev/images/medium/" +
-                            resto.pictureId),
-                    fit: BoxFit.cover),
-              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Hero(
+                      tag: resto.pictureId,
+                      child: Image.network(
+                        "https://restaurant-api.dicoding.dev/images/medium/${resto.pictureId}",
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.cover,
+                      ))),
             ),
             Expanded(
               child: Container(

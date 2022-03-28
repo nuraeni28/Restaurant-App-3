@@ -4,44 +4,55 @@ import 'package:yess_nutrion/provider/resto_provider.dart';
 import 'package:yess_nutrion/resto_search.dart';
 import '../api/api_service.dart';
 
-enum SearchState { Loading, NoData, HasData, Error }
+enum SearchState { Loading, NoData, HasData, Error, NoQueri }
 
 class SearchRestoProvider extends ChangeNotifier {
   final ApiService apiService;
+
   // final String query;
 
   SearchRestoProvider({required this.apiService}) {
-    fetcSearchResto(query);
+    fetcSearchResto();
   }
 
-  RestoSearch? _searchResult;
-  SearchState? _state;
+  late RestoSearch _searchResult;
+  late SearchState _state;
   String _message = '';
-  String _query = '';
+  String query = '';
 
   String get message => _message;
-  RestoSearch? get result => _searchResult;
-  SearchState? get state => _state;
-  String get query => _query;
+  RestoSearch get result => _searchResult;
+  SearchState get state => _state;
 
-  Future<dynamic> fetcSearchResto(String query) async {
-    try {
-      _state = SearchState.Loading;
-      _query = query;
-      final search = await apiService.searchRestaurant(query);
-      if (search.restaurants.isEmpty) {
-        _state = SearchState.NoData;
+  Future<dynamic> fetcSearchResto() async {
+    if (query != "") {
+      try {
+        _state = SearchState.Loading;
+        final search = await apiService.searchRestaurant(query);
+        if (search.restaurants.isEmpty) {
+          _state = SearchState.NoData;
+          notifyListeners();
+          return _message = 'Restaurant yang Anda cari tidak ditemukan';
+        } else {
+          _state = SearchState.HasData;
+          notifyListeners();
+          return _searchResult = search;
+        }
+      } catch (e) {
+        _state = SearchState.Error;
         notifyListeners();
-        return _message = 'Restaurant yang Anda cari tidak ditemukan';
-      } else {
-        _state = SearchState.HasData;
-        notifyListeners();
-        return _searchResult = search;
+        return _message = 'Whoops. Kamu tidak tersambung dengan Internet!';
       }
-    } catch (e) {
-      _state = SearchState.Error;
+    } else {
+      _state = SearchState.NoQueri;
       notifyListeners();
-      return _message = 'Whoops. Kamu tidak tersambung dengan Internet!';
+      return _message = 'No queri';
     }
+  }
+
+  void addQueri(String query) {
+    this.query = query;
+    fetcSearchResto();
+    notifyListeners();
   }
 }
