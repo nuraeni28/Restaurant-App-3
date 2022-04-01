@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:yess_nutrion/ui/main_page.dart';
+import 'package:yess_nutrion/widget/nav_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacementNamed(context, RecomendResto.routeName);
+      Navigator.pushReplacementNamed(context, MainPage.routeName);
     });
   }
 

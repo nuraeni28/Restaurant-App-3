@@ -2,32 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yess_nutrion/api/api_service.dart';
 import 'package:yess_nutrion/common//styles.dart';
+import 'package:yess_nutrion/db/database_helper.dart';
+import 'package:yess_nutrion/model/resto.dart';
+import 'package:yess_nutrion/provider/database_provider.dart';
+import 'package:yess_nutrion/provider/detail_provider.dart';
 import 'package:yess_nutrion/provider/resto_provider.dart';
+import 'package:yess_nutrion/result_state.dart';
 import 'package:yess_nutrion/ui/main_page.dart';
 import 'package:yess_nutrion/widget/drink_list.dart';
 import 'package:yess_nutrion/widget/food_list.dart';
+import 'package:yess_nutrion/widget/nav_bar.dart';
 
-class DetailResto extends StatefulWidget {
+class DetailResto extends StatelessWidget {
   static const routeName = 'detail/restaurant';
-  final String id;
+  final Restaurant resto;
 
-  const DetailResto({required this.id});
+  const DetailResto({required this.resto});
 
   @override
-  State<DetailResto> createState() => _DetailRestoState();
-}
-
-class _DetailRestoState extends State<DetailResto> {
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RestoProvider>(
-        create: (_) => RestoProvider(
-            apiService: ApiService(), type: 'detail', id: widget.id),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<RestoDetailProvider>(
+            create: (_) =>
+                RestoDetailProvider(apiService: ApiService(), id: resto.id),
+          ),
+          ChangeNotifierProvider<DatabaseProvider>(
+            create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
+          ),
+        ],
         child: Scaffold(
-            body: Consumer<RestoProvider>(builder: (context, state, _) {
+            body: Consumer<RestoDetailProvider>(builder: (context, state, _) {
           if (state.state == ResultState.Loading) {
             return Center(child: CircularProgressIndicator());
           } else if (state.state == ResultState.HasData) {
-            final resto = state.result;
+            final value = state.result;
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -41,7 +50,7 @@ class _DetailRestoState extends State<DetailResto> {
                               image: DecorationImage(
                                   image: NetworkImage(
                                       'https://restaurant-api.dicoding.dev/images/medium/' +
-                                          resto.restaurant.pictureId),
+                                          value.restaurant.pictureId),
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(40),
@@ -62,13 +71,53 @@ class _DetailRestoState extends State<DetailResto> {
                                       ),
                                       onPressed: () {
                                         Navigator.pushReplacementNamed(
-                                            context, RecomendResto.routeName);
+                                            context, MainPage.routeName);
                                       },
                                     ),
                                   ]),
                               SizedBox(
                                 height: 200,
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Consumer<DatabaseProvider>(
+                                    builder: (context, provider, child) {
+                                      return FutureBuilder<bool>(
+                                        future: provider.isFavorited(resto.id),
+                                        builder: (context, snapshot) {
+                                          var isfavorited =
+                                              snapshot.data ?? false;
+                                          return Container(
+                                              height: 70,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white),
+                                              child: isfavorited
+                                                  ? IconButton(
+                                                      icon: const Icon(
+                                                          Icons.favorite),
+                                                      color: Colors.redAccent,
+                                                      onPressed: () => provider
+                                                          .removeFavorite(
+                                                              resto.id),
+                                                    )
+                                                  : IconButton(
+                                                      icon: const Icon(Icons
+                                                          .favorite_border),
+                                                      color: Colors.redAccent,
+                                                      onPressed: () => provider
+                                                          .addFavorite(resto),
+                                                    )
+                                              // child: Center(child: LoveButton()),
+                                              );
+                                        },
+                                      );
+                                    },
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -78,7 +127,7 @@ class _DetailRestoState extends State<DetailResto> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                resto.restaurant.name,
+                                value.restaurant.name,
                                 style: Theme.of(context).textTheme.headline5,
                               ),
                               Row(
@@ -91,7 +140,7 @@ class _DetailRestoState extends State<DetailResto> {
                                   SizedBox(
                                     width: 3,
                                   ),
-                                  Text(resto.restaurant.city)
+                                  Text(value.restaurant.city)
                                 ],
                               ),
                               SizedBox(
@@ -104,7 +153,7 @@ class _DetailRestoState extends State<DetailResto> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(resto.restaurant.description),
+                              Text(value.restaurant.description),
                               SizedBox(
                                 height: 30,
                               ),
@@ -112,13 +161,13 @@ class _DetailRestoState extends State<DetailResto> {
                                 'Foods',
                                 style: Theme.of(context).textTheme.headline6,
                               ),
-                              FoodList(foods: resto.restaurant.menus.foods),
+                              FoodList(foods: value.restaurant.menus.foods),
                               SizedBox(height: 30),
                               Text(
                                 'Drinks',
                                 style: Theme.of(context).textTheme.headline6,
                               ),
-                              DrinkList(drinks: resto.restaurant.menus.drinks),
+                              DrinkList(drinks: value.restaurant.menus.drinks),
                             ],
                           ),
                         ),

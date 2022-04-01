@@ -15,7 +15,7 @@ class ListResto extends StatelessWidget {
         Navigator.pushNamed(
           context,
           DetailResto.routeName,
-          arguments: resto.id,
+          arguments: resto,
         );
       },
       child: Column(children: <Widget>[
@@ -26,9 +26,10 @@ class ListResto extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Hero(
-                      tag: resto.pictureId,
+                      tag: resto,
                       child: Image.network(
-                        "https://restaurant-api.dicoding.dev/images/medium/${resto.pictureId}",
+                        "https://restaurant-api.dicoding.dev/images/medium/" +
+                            resto.pictureId,
                         height: 120,
                         width: 120,
                         fit: BoxFit.cover,

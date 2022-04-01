@@ -25,7 +25,9 @@ class _RecomendRestoState extends State<RecomendResto> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => RestoProvider(apiService: ApiService()),
+        create: (_) => RestoProvider(
+              apiService: ApiService(),
+            ),
         child: RestoPage());
   }
 }

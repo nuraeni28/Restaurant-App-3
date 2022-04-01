@@ -4,8 +4,6 @@ import 'package:yess_nutrion/model/resto.dart';
 
 class ApiService {
   static final String _baseUrl = "https://restaurant-api.dicoding.dev/";
-  static final String imgUrl =
-      'https://restaurant-api.dicoding.dev/images/medium/';
 
   Future<RestoList> restaurantList() async {
     final response = await http.get(Uri.parse(_baseUrl + "list"));
