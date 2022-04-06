@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:yess_nutrion/common/navigation.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:yess_nutrion/common/navigation.dart';
 import 'package:yess_nutrion/model/resto.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();

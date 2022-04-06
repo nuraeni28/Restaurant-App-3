@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yess_nutrion/api/api_service.dart';
 import 'package:yess_nutrion/provider/resto_provider.dart';
 import 'package:yess_nutrion/ui/resto_page.dart';
-
-import 'package:yess_nutrion/api/api_service.dart';
 
 class RecomendResto extends StatefulWidget {
   static const routeName = '/resto_recomend';

@@ -32,7 +32,7 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _state = ResultState.Error;
-      _message = 'Oops. Koneksi internet kamu mati!';
+      _message = 'Error: $e';
       notifyListeners();
     }
   }
@@ -43,7 +43,7 @@ class DatabaseProvider extends ChangeNotifier {
       getFavorites();
     } catch (e) {
       _state = ResultState.Error;
-      _message = 'Error: $e';
+      _message = 'Oops. Koneksi internet kamu mati!';
       notifyListeners();
     }
   }
@@ -59,7 +59,7 @@ class DatabaseProvider extends ChangeNotifier {
       getFavorites();
     } catch (e) {
       _state = ResultState.Error;
-      _message = 'Error: $e';
+      _message = 'Oops. Koneksi internet kamu mati!';
       notifyListeners();
     }
   }

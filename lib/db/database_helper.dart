@@ -11,22 +11,22 @@ class DatabaseHelper {
 
   factory DatabaseHelper() => _instance ?? DatabaseHelper._internal();
 
-  static const String _tblFavorites = 'favorites';
+  static const String _tblFavorite = 'favorite';
 
   Future<Database> _initializeDb() async {
     var path = await getDatabasesPath();
     var db = openDatabase(
-      '$path/resto.db',
+      '$path/Resto.db',
       onCreate: (db, version) async {
-        await db.execute('''CREATE TABLE $_tblFavorites (
-             id TEXT PRIMARY KEY,
-             name TEXT,
-             description TEXT,
-             pictureId TEXT,
-             city TEXT,
-             rating DOUBLE
-           )     
-        ''');
+        await db.execute('''CREATE TABLE $_tblFavorite (
+                id TEXT PRIMARY KEY,
+                name TEXT,
+                description TEXT,
+                pictureId TEXT,
+                city TEXT,
+                rating DOUBLE
+               )     
+            ''');
       },
       version: 1,
     );
@@ -35,21 +35,20 @@ class DatabaseHelper {
   }
 
   Future<Database?> get database async {
-    if (_database == null) {
-      _database = await _initializeDb();
-    }
+    _database ??= await _initializeDb();
 
     return _database;
   }
 
   Future<void> insertFavorite(Restaurant resto) async {
     final db = await database;
-    await db!.insert(_tblFavorites, resto.toJson());
+
+    await db!.insert(_tblFavorite, resto.toJson());
   }
 
   Future<List<Restaurant>> getFavorites() async {
     final db = await database;
-    List<Map<String, dynamic>> results = await db!.query(_tblFavorites);
+    List<Map<String, dynamic>> results = await db!.query(_tblFavorite);
 
     return results.map((res) => Restaurant.fromJson(res)).toList();
   }
@@ -58,7 +57,7 @@ class DatabaseHelper {
     final db = await database;
 
     List<Map<String, dynamic>> results = await db!.query(
-      _tblFavorites,
+      _tblFavorite,
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -74,7 +73,7 @@ class DatabaseHelper {
     final db = await database;
 
     await db!.delete(
-      _tblFavorites,
+      _tblFavorite,
       where: 'id = ?',
       whereArgs: [id],
     );

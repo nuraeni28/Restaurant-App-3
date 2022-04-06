@@ -15,7 +15,7 @@ class DrinkList extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: EdgeInsets.all(10),
-            width: 210.0,
+            width: 250.0,
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[

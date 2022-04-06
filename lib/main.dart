@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,21 +6,22 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yess_nutrion/api/api_service.dart';
 import 'package:yess_nutrion/common/navigation.dart';
+import 'package:yess_nutrion/common/styles.dart';
 import 'package:yess_nutrion/db/database_helper.dart';
+import 'package:yess_nutrion/model/resto.dart';
 import 'package:yess_nutrion/preferences/preferences_helper.dart';
 import 'package:yess_nutrion/provider/database_provider.dart';
+import 'package:yess_nutrion/provider/detail_provider.dart';
 import 'package:yess_nutrion/provider/preferences_provider.dart';
 import 'package:yess_nutrion/provider/resto_provider.dart';
 import 'package:yess_nutrion/provider/scheduling_provider.dart';
 import 'package:yess_nutrion/provider/search_provider.dart';
 import 'package:yess_nutrion/ui/favorite_page.dart';
 import 'package:yess_nutrion/ui/main_page.dart';
-import 'package:yess_nutrion/model/resto.dart';
 import 'package:yess_nutrion/ui/resto_detail.dart';
 import 'package:yess_nutrion/ui/resto_search.dart';
 import 'package:yess_nutrion/ui/setting_page.dart';
 import 'package:yess_nutrion/ui/splash_screen.dart';
-import 'package:yess_nutrion/common/styles.dart';
 import 'package:yess_nutrion/utils/background_service.dart';
 import 'package:yess_nutrion/utils/notification_helper.dart';
 import 'package:yess_nutrion/widget/nav_bar.dart';
@@ -53,6 +53,10 @@ class MyApp extends StatelessWidget {
             create: (_) => RestoProvider(apiService: ApiService()),
           ),
           ChangeNotifierProvider(
+            create: (_) =>
+                RestoDetailProvider(apiService: ApiService(), id: ''),
+          ),
+          ChangeNotifierProvider(
             create: (_) => SearchRestoProvider(apiService: ApiService()),
           ),
           ChangeNotifierProvider(
@@ -71,7 +75,6 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
           title: 'Restaurant App',
           theme: ThemeData(
             textTheme: myTextTheme,
@@ -79,6 +82,7 @@ class MyApp extends StatelessWidget {
             // primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
+          navigatorKey: navigatorKey,
           initialRoute: SettingPageResto.routeName,
           routes: {
             MainPage.routeName: (context) => MainPage(),
@@ -88,7 +92,7 @@ class MyApp extends StatelessWidget {
             FavoritePage.routeName: (context) => FavoritePage(),
             DetailResto.routeName: (context) => DetailResto(
                 resto:
-                    ModalRoute.of(context)!.settings.arguments! as Restaurant),
+                    ModalRoute.of(context)?.settings.arguments as Restaurant),
             SplashScreen.routeName: (context) => SplashScreen(),
           },
         ));

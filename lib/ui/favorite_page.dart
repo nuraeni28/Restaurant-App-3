@@ -63,25 +63,24 @@ class FavoriteBody extends StatelessWidget {
           const SizedBox(
             height: 20.0,
           ),
-          Consumer<DatabaseProvider>(builder: (context, result, child) {
-            if (result.state == ResultState.Loading) {
+          Consumer<DatabaseProvider>(builder: (context, favorite, _) {
+            if (favorite.state == ResultState.Loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (result.state == ResultState.HasData) {
+            } else if (favorite.state == ResultState.HasData) {
               return ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: result.favorites.length,
+                  itemCount: favorite.favorites.length,
                   itemBuilder: (context, index) {
-                    var resto = result.favorites[index];
-                    return ListResto(resto: resto);
+                    return FavoriteData(resto: favorite.favorites[index]);
                   });
-            } else if (result.state == ResultState.NoData) {
+            } else if (favorite.state == ResultState.NoData) {
               return Center(
                 child: Text('No Favorite Restaurant'),
               );
-            } else if (result.state == ResultState.Error) {
+            } else if (favorite.state == ResultState.Error) {
               return Center(child: Text('Oops. Koneksi internet kamu mati!'));
             } else {
               return Container();
@@ -91,5 +90,107 @@ class FavoriteBody extends StatelessWidget {
       ))
     ]));
   }
-// }
+}
+
+class FavoriteData extends StatelessWidget {
+  final Restaurant resto;
+
+  const FavoriteData({Key? key, required this.resto}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DatabaseProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder<bool>(
+          future: provider.isFavorited(resto.id),
+          builder: (context, snapshot) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(
+                  MaterialPageRoute(builder: (_) => DetailResto(resto: resto)),
+                )
+                    .then((_) {
+                  context.read<DatabaseProvider>().getFavorites();
+                });
+              },
+              child: Column(children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Container(
+                          margin: EdgeInsets.only(left: 40, bottom: 20),
+                          child: Expanded(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Hero(
+                                    tag: resto,
+                                    child: Image.network(
+                                      "https://restaurant-api.dicoding.dev/images/medium/" +
+                                          resto.pictureId,
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    ))),
+                          )),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 100,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20)),
+                            color: Colors.white70),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                resto.name,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: secondaryColor,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    resto.city,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(resto.rating.toString())
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ]),
+            );
+          },
+        );
+      },
+    );
+  }
 }

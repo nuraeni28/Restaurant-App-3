@@ -4,7 +4,6 @@ import 'package:yess_nutrion/provider/resto_provider.dart';
 import 'package:yess_nutrion/result_state.dart';
 import 'package:yess_nutrion/ui/resto_search.dart';
 import 'package:yess_nutrion/widget/resto_list.dart';
-import 'package:yess_nutrion/api/api_service.dart';
 
 class RestoPage extends StatelessWidget {
   @override

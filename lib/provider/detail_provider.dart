@@ -4,24 +4,24 @@ import 'package:yess_nutrion/model/resto.dart';
 import 'package:yess_nutrion/result_state.dart';
 
 class RestoDetailProvider extends ChangeNotifier {
-  late final ApiService apiService;
-  String id;
+  final ApiService apiService;
+  final String id;
 
   RestoDetailProvider({required this.apiService, required this.id}) {
-    _fetchAllDetailRestaurant();
+    _fetchAllDetailRestaurant(id);
   }
 
-  late RestoDetail _restaurant;
+  RestoDetail? _detailRestaurant;
   String _message = '';
-  late ResultState _state;
+  ResultState? _state;
 
   String get message => _message;
 
-  RestoDetail get result => _restaurant;
+  RestoDetail get detailRestaurant => _detailRestaurant!;
 
-  ResultState get state => _state;
+  ResultState get state => _state!;
 
-  Future<dynamic> _fetchAllDetailRestaurant() async {
+  Future<dynamic> _fetchAllDetailRestaurant(String id) async {
     try {
       _state = ResultState.Loading;
       notifyListeners();
@@ -33,7 +33,7 @@ class RestoDetailProvider extends ChangeNotifier {
       } else {
         _state = ResultState.HasData;
         notifyListeners();
-        return _restaurant = resto;
+        return _detailRestaurant = resto;
       }
     } catch (e) {
       _state = ResultState.Error;

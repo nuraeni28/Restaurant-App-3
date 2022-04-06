@@ -13,9 +13,9 @@ class FoodList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: foods.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
+          return Flexible(
+              child: Container(
             margin: EdgeInsets.all(10),
-            width: 210.0,
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -36,9 +36,11 @@ class FoodList extends StatelessWidget {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text(
-                                foods[index].name,
-                                style: Theme.of(context).textTheme.subtitle2,
+                              Expanded(
+                                child: Text(
+                                  foods[index].name,
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                ),
                               ),
                             ],
                           ),
@@ -75,7 +77,7 @@ class FoodList extends StatelessWidget {
                 )
               ],
             ),
-          );
+          ));
         },
       ),
     );

@@ -1,8 +1,7 @@
-import 'dart:ui';
 import 'dart:isolate';
-import 'dart:math';
-import 'package:yess_nutrion/main.dart';
+import 'dart:ui';
 import 'package:yess_nutrion/api/api_service.dart';
+import 'package:yess_nutrion/main.dart';
 import 'package:yess_nutrion/utils/notification_helper.dart';
 
 final ReceivePort port = ReceivePort();
