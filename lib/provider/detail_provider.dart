@@ -38,7 +38,7 @@ class RestoDetailProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.Error;
       notifyListeners();
-      return _message = 'Error --> $e';
+      return _message = 'Oops. Koneksi internet kamu mati!';
     }
   }
 }

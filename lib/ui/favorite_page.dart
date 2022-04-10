@@ -7,9 +7,20 @@ import 'package:yess_nutrion/result_state.dart';
 import 'package:yess_nutrion/ui/resto_detail.dart';
 import 'package:yess_nutrion/widget/resto_list.dart';
 
-class FavoritePage extends StatelessWidget {
+class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
   static const routeName = '/resto_favorite';
+
+  @override
+  State<FavoritePage> createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends State<FavoritePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<DatabaseProvider>().getFavorites());
+  }
 
   @override
   Widget build(BuildContext context) {

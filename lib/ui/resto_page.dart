@@ -156,7 +156,7 @@ class RestoPage extends StatelessWidget {
                     height: 100,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage('assets/icons/no-wifi.png'))),
+                            image: AssetImage('images/no-wifi.png'))),
                   ),
                   Container(
                     child: Text(
