@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           navigatorKey: navigatorKey,
-          initialRoute: SettingPageResto.routeName,
+          initialRoute: MainPage.routeName,
           routes: {
             MainPage.routeName: (context) => MainPage(),
             SettingPageResto.routeName: (context) => MainPage(),

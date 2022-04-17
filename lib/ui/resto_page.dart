@@ -132,6 +132,7 @@ class RestoPage extends StatelessWidget {
                     ),
                     Expanded(
                         child: ListView.builder(
+                            shrinkWrap: true,
                             itemCount: state.result.restaurants.length,
                             itemBuilder: (context, index) {
                               var resto = state.result.restaurants[index];

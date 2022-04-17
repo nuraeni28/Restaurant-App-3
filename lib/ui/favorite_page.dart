@@ -80,15 +80,13 @@ class FavoriteBody extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else if (favorite.state == ResultState.HasData) {
-              return Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: favorite.favorites.length,
-                  itemBuilder: (context, index) {
-                    return FavoriteData(resto: favorite.favorites[index]);
-                  },
-                ),
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: favorite.favorites.length,
+                itemBuilder: (context, index) {
+                  return FavoriteData(resto: favorite.favorites[index]);
+                },
               );
             } else if (favorite.state == ResultState.NoData) {
               return Center(

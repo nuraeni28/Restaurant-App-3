@@ -17,7 +17,7 @@ class RestoProvider extends ChangeNotifier {
   String _message = '';
 
   String get message => _message;
-  dynamic get result => _resto;
+  RestoList get result => _resto;
 
   ResultState get state => _state;
 
