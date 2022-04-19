@@ -22,22 +22,20 @@ class ListResto extends StatelessWidget {
         Row(
           children: <Widget>[
             Flexible(
-              child: Container(
-                  margin: EdgeInsets.only(left: 40, bottom: 20),
-                  child: Expanded(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Hero(
-                            tag: resto,
-                            child: Image.network(
-                              "https://restaurant-api.dicoding.dev/images/medium/" +
-                                  resto.pictureId,
-                              height: 120,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            ))),
-                  )),
-            ),
+                child: Container(
+              margin: EdgeInsets.only(left: 40, bottom: 20),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Hero(
+                      tag: resto,
+                      child: Image.network(
+                        "https://restaurant-api.dicoding.dev/images/medium/" +
+                            resto.pictureId,
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.cover,
+                      ))),
+            )),
             Expanded(
               child: Container(
                 height: 100,

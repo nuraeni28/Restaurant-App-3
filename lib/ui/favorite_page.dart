@@ -36,71 +36,70 @@ class FavoriteBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(children: <Widget>[
-      Container(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
+        child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 30, left: 30),
-                  child: Text(
-                    'Favorite Restaurant ',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold),
-                  ),
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 30, left: 30),
+                child: Text(
+                  'Favorite Restaurant ',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10, left: 30),
-                  child: Text(
-                    'List your favorite restaurant',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54),
-                  ),
-                )
-              ],
-            ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 10, left: 30),
+                child: Text(
+                  'List your favorite restaurant',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54),
+                ),
+              )
+            ],
           ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Consumer<DatabaseProvider>(builder: (context, favorite, _) {
-            if (favorite.state == ResultState.Loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (favorite.state == ResultState.HasData) {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: favorite.favorites.length,
-                itemBuilder: (context, index) {
-                  return FavoriteData(resto: favorite.favorites[index]);
-                },
-              );
-            } else if (favorite.state == ResultState.NoData) {
-              return Center(
-                child: Text('No Favorite Restaurant'),
-              );
-            } else if (favorite.state == ResultState.Error) {
-              return Center(child: Text('Oops. Koneksi internet kamu mati!'));
-            } else {
-              return Container();
-            }
-          })
-        ],
-      ))
-    ]));
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Consumer<DatabaseProvider>(builder: (context, favorite, _) {
+          if (favorite.state == ResultState.Loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (favorite.state == ResultState.HasData) {
+            return Expanded(
+                child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: favorite.favorites.length,
+              itemBuilder: (context, index) {
+                return FavoriteData(resto: favorite.favorites[index]);
+              },
+            ));
+          } else if (favorite.state == ResultState.NoData) {
+            return Center(
+              child: Text('No Favorite Restaurant'),
+            );
+          } else if (favorite.state == ResultState.Error) {
+            return Center(child: Text('Oops. Koneksi internet kamu mati!'));
+          } else {
+            return Container();
+          }
+        })
+      ],
+    )));
   }
 }
 
